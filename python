@@ -1,0 +1,36 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Creamos datos de ejemplo
+datos = {
+    'Producto': ['Manzana', 'Banana', 'Naranja', 'Manzana', 'Banana', 'Naranja'],
+    'Ventas': [150, 200, 120, 180, 90, 210],
+    'Mes': ['Enero', 'Enero', 'Enero', 'Febrero', 'Febrero', 'Febrero']
+}
+
+df = pd.DataFrame(datos)
+
+print("=== DATOS CARGADOS ===")
+print(df)
+print()
+print("=== ESTADÍSTICAS GENERALES ===")
+print(df['Ventas'].describe())
+
+# Gráfico
+ventas_por_producto = df.groupby('Producto')['Ventas'].sum()
+ventas_por_producto.plot(kind='bar', color='steelblue', edgecolor='black')
+plt.title('Ventas totales por producto')
+plt.xlabel('Producto')
+plt.ylabel('Ventas')
+plt.tight_layout()
+plt.savefig('grafico_ventas.png')
+plt.close()
+
+# Reporte en Excel
+reporte = df.groupby(['Producto', 'Mes'])['Ventas'].sum().reset_index()
+reporte.to_excel('reporte_ventas.xlsx', index=False)
+
+print()
+print("=== ARCHIVOS GUARDADOS ===")
+print("grafico_ventas.png")
+print("reporte_ventas.xlsx")
